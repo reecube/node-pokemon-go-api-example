@@ -1,0 +1,26 @@
+{
+  "name": "node-pokemon-go-api-example",
+  "version": "1.0.0",
+  "description": "node-pokemon-go-api-example",
+  "main": "example/example.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reecube/node-pokemon-go-api-example.git"
+  },
+  "author": "ReeCube",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reecube/node-pokemon-go-api-example/issues"
+  },
+  "homepage": "https://github.com/reecube/node-pokemon-go-api-example#readme",
+  "dependencies": {
+    "pokemon-go-node-api": "git+https://github.com/Armax/Pokemon-GO-node-api.git",
+    "swig": "^1.4.2"
+  }
+}
