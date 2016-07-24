@@ -70,7 +70,7 @@
                         content: '<div id="content"><p>'
                         + '<strong>' + pokemon.name + '</strong> Nr. ' + pokemon.num + '<br><br>'
                             //+ pokemon.type + '<br><br>'
-                        + '<span data-ts-hidden="' + (tsNow + tsTillHidden) + '"></span>' + '<br><br>'
+                        + '<span data-ts-hidden="' + (tsNow + tsTillHidden) + '">Loading...</span><br><br>'
                         + '<a href="' + url + '" target="_blank">Google Maps</a>'
                         + '</p></div>'
                     })
@@ -93,9 +93,13 @@
                     realSecs = restSecs % 60,
                     realMins = (restSecs - realSecs) / 60;
 
-                elm.innerHTML = realMins + 'mins, ' + realSecs + 'secs';
+                if (rest > 0) {
+                    elm.innerHTML = realMins + 'mins, ' + realSecs + 'secs';
+                } else {
+                    elm.innerHTML = 'Unknown Error';
+                }
             });
-        }, 1000);
+        }, 500);
     }
 </script>
 <script async defer
