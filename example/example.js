@@ -57,6 +57,7 @@ pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.p
 
         let nearbyPokemon = [],
             queueLocations = [],
+            pgoLoc = pgo.GetLocationCoords(),
             cbAllCollected = function (errors) {
                 for (let i = 0; i < errors.length; i++) {
                     console.error('[e]', errors[i]);
@@ -82,8 +83,8 @@ pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.p
                     jsConfig: JSON.stringify({
                         zoom: 18,
                         location: {
-                            lat: pgo.playerInfo.latitude,
-                            lng: pgo.playerInfo.longitude
+                            lat: pgoLoc.latitude,
+                            lng: pgoLoc.longitude
                         },
                         pokemon: realNearbyPokemon
                     })
@@ -96,19 +97,18 @@ pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.p
             },
             delta = 0.0025,
             steps = pgoConfig.steps || 1,
-            tmpLoc = pgo.GetLocationCoords(),
-            tmpLat = tmpLoc.latitude - (steps / 2) * delta,
-            tmpLng = tmpLoc.longitude - (steps / 2) * delta,
-            tmpAlt = tmpLoc.altitude,
+            pgoLat = pgoLoc.latitude - (steps / 2) * delta,
+            pgoLng = pgoLoc.longitude - (steps / 2) * delta,
+            pgoAlt = pgoLoc.altitude,
             totLocations = steps * steps,
             totLocationsStr = totLocations.toString();
 
         for (let x = 0; x < steps; x++) {
             for (let y = 0; y < steps; y++) {
                 queueLocations.push({
-                    latitude: tmpLat + x * delta,
-                    longitude: tmpLng + y * delta,
-                    altitude: tmpAlt
+                    latitude: pgoLat + x * delta,
+                    longitude: pgoLng + y * delta,
+                    altitude: pgoAlt
                 })
             }
         }
