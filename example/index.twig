@@ -54,6 +54,8 @@
             var mLoc = config.pokemon[i].location,
                 url = 'http://maps.google.com/?ll=' + mLoc.lat + ',' + mLoc.lng,
                 pokemon = config.pokemon[i].pokedex,
+                tsNow = config.pokemon[i].tsNow,
+                tsTillHidden = config.pokemon[i].tsTillHidden,
                 marker = new google.maps.Marker({
                     url: url,
                     position: mLoc,
@@ -67,7 +69,8 @@
                     infoWindow: new google.maps.InfoWindow({
                         content: '<div id="content"><p>'
                         + '<strong>' + pokemon.name + '</strong> Nr. ' + pokemon.num + '<br><br>'
-                        + pokemon.type + '<br><br>'
+                            //+ pokemon.type + '<br><br>'
+                        + '<span data-ts-hidden="' + (tsNow + tsTillHidden) + '"></span>' + '<br><br>'
                         + '<a href="' + url + '" target="_blank">Google Maps</a>'
                         + '</p></div>'
                     })
@@ -78,6 +81,21 @@
                 cMarker.infoWindow.open(map, cMarker);
             });
         }
+
+        setInterval(function () {
+            var elements = document.querySelectorAll('[data-ts-hidden]');
+
+            elements.forEach(function (elm) {
+                var dataTsHidden = elm.getAttribute('data-ts-hidden'),
+                    tsHidden = parseInt(dataTsHidden),
+                    rest = tsHidden - new Date().getTime(),
+                    restSecs = Math.round(rest / 1000),
+                    realSecs = restSecs % 60,
+                    realMins = (restSecs - realSecs) / 60;
+
+                elm.innerHTML = realMins + 'mins, ' + realSecs + 'secs';
+            });
+        }, 1000);
     }
 </script>
 <script async defer

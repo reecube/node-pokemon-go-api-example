@@ -149,7 +149,8 @@ pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.p
                                                 lng: hb.cells[i].WildPokemon[j].Longitude
                                             },
                                             spawnPointId: hb.cells[i].WildPokemon[j].SpawnPointId,
-                                            timeTillHiddenMs: hb.cells[i].WildPokemon[j].TimeTillHiddenMs,
+                                            tsTillHidden: hb.cells[i].WildPokemon[j].TimeTillHiddenMs,
+                                            tsNow: new Date().getTime(),
                                             pokedex: {
                                                 num: pokemon.num,
                                                 name: pokemon.name,
