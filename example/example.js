@@ -23,7 +23,7 @@ pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.p
     console.log('[i] Current location: ' + pgo.playerInfo.locationName);
     console.log('[i] lat/long/alt: : ' + pgo.playerInfo.latitude + ' ' + pgo.playerInfo.longitude + ' ' + pgo.playerInfo.altitude);
 
-    pgo.GetProfile(function (err, profile) {
+    let cbGetProfile = function (err, profile) {
         if (err) throw err;
 
         console.log('[i] Username: ' + profile.username);
@@ -173,5 +173,16 @@ pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.p
 
 
         crawl([]);
+    };
+
+    pgo.GetApiEndpoint(function (err, api_endpoint) {
+        if (err) throw err;
+
+        if (api_endpoint) {
+            // FIXME: this should already happen in poke.io.js
+            pgo.GetProfile(cbGetProfile);
+        } else {
+            console.error('[!] RPC Server offline');
+        }
     });
 });
