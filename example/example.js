@@ -12,19 +12,23 @@ let fs = require('fs'),
     pgoConfig = require('./example-config.json');
 
 let tools = {
-    getPokemonByNumber: function (pokedexNumber) {
-        return pokedex.pokemon[pokedexNumber - 1];
-    }
-};
+        getPokemonByNumber: function (pokedexNumber) {
+            return pokedex.pokemon[pokedexNumber - 1];
+        }
+    },
+    handleError = function (err) {
+        console.error('[!] Error occured!');
+        throw err;
+    };
 
 pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.provider, function (err) {
-    if (err) throw err;
+    if (err) return handleError(err);
 
     console.log('[i] Current location: ' + pgo.playerInfo.locationName);
     console.log('[i] lat/long/alt: : ' + pgo.playerInfo.latitude + ' ' + pgo.playerInfo.longitude + ' ' + pgo.playerInfo.altitude);
 
     let cbGetProfile = function (err, profile) {
-        if (err) throw err;
+        if (err) return handleError(err);
 
         console.log('[i] Username: ' + profile.username);
         console.log('[i] Team: ' + profile.team);
@@ -47,7 +51,7 @@ pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.p
                     }
                     break;
                 default:
-                    console.warn('[w] Unknown currency:', profile.currency[i].type);
+                    console.warn('[!] Unknown currency:', profile.currency[i].type);
                     break;
             }
         }
@@ -60,7 +64,7 @@ pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.p
             pgoLoc = pgo.GetLocationCoords(),
             cbAllCollected = function (errors) {
                 for (let i = 0; i < errors.length; i++) {
-                    console.error('[e]', errors[i]);
+                    console.error('[!]', errors[i]);
                 }
 
                 // filter duplicated pokemon
@@ -90,7 +94,7 @@ pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.p
                     })
                 });
                 fs.writeFile(__dirname + '/public/index.html', htmlOutput, function (err) {
-                    if (err) throw err;
+                    if (err) return handleError(err);
 
                     console.log('[i] Map saved as html file.');
                 });
@@ -176,7 +180,7 @@ pgo.init(pgoConfig.username, pgoConfig.password, pgoConfig.location, pgoConfig.p
     };
 
     pgo.GetApiEndpoint(function (err, api_endpoint) {
-        if (err) throw err;
+        if (err) return handleError(err);
 
         if (api_endpoint) {
             // FIXME: this should already happen in poke.io.js
